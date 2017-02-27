@@ -11,7 +11,7 @@ These codes help data preparation for building an ASR system in Kaldi by creatin
 	- wav.scp  
 
 ## Inputs to be specified   
-- Before running prep4kaldi.sh, please check out the input section and modify to fit your needs.
+- Before running prep4kaldi.sh, please check out the **input section** and modify to fit your needs.
 
 (1) **datadir**  
 - Directory path of where subfolders named by speaker ids are located.
