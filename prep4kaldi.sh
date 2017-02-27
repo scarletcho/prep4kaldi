@@ -20,10 +20,14 @@
 #		Specify as:
 #			$ datadir='/Users/cho/mycorpus/'
 #
+# (2) datatype
+#   - Type of data from which information should be extracted.
+#   - Please choose between 'textgrid' or 'wavtxt'.
+#
 # (2) tiername
-#	- Name of TextGrid tier to extract labels from.
+#	- Name of TextGrid tier to extract labels from (if datatype is specified as 'textgrid').
 #	e.g. 'utterance', 'sent', ...
-
+#
 # Usage: $ sh prep4kaldi.sh
 
 # Created: 2017-02-27
@@ -32,13 +36,26 @@
 # Yejin Cho (scarletcho@gmail.com)
 # ─────────────────────────────────────────────────────────────────────────
 # Input section
-datadir='/Users/Scarlet_Mac/krss/wavtxt/spoken/'
+datadir='/Users/Scarlet_Mac/krss/wavtxt/read/'
+datatype='wavtxt'
 tiername='utt.ortho'
 
 # ─────────────────────────────────────────────────────────────────────────
 # STEP1
 echo '[STEP1] Extract uttinfo.txt from .TextGrids in $datadir'
-python textgrid2info.py "$datadir" "$tiername"
+case $datatype in
+    textgrid)
+        # When extracting info from TextGrids:
+        python textgrid2info.py "$datadir" "$tiername"
+        ;;
+    wavtxt)
+        # When extracting info from wavs and txts:
+        python wavtxt2info.py "$datadir"
+        ;;
+    *)
+        echo -n "Please specify your datatype as 'textgrid' of 'wavtxt'."
+        ;;
+esac
 
 cd $datadir
 mkdir required

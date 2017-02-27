@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 
 '''
-textgrid2info.py
+wavtxt2info.py
 ~~~~~~~~~~
 
 This script extracts a tab delimited utterance information (uttinfo.txt)
-from .TextGrid files in a specific directory.
+from .wav and .txt files in a specific directory.
 
 The extracted information includes 7 fields in total:
 
@@ -22,10 +22,9 @@ The extracted information includes 7 fields in total:
      < a single utterance >, which is delimited by newlines(\n).
 =================================================================
 
-Input:  (1) Full path of the corpora, and
-        (2) the name of tier to be extracted should be specified.
+Input:  Full path of the corpora
 
-Usage:  $ python textgrid2text.py '/Users/Scarlet_Mac/mycorpus/' 'utt.ortho'
+Usage:  $ python wavtxt2text.py '/Users/Scarlet_Mac/mycorpus/'
 
 Yejin Cho (scarletcho@gmail.com)
 
@@ -38,6 +37,9 @@ import os
 import glob
 import re
 import math
+import wave
+import contextlib
+from kolm.utils import readfileUTF8
 from kolm.utils import writefile
 
 try:
@@ -94,7 +96,16 @@ def codify6digits(floats):
     return numstr
 
 
-def getInfo_textgrid(datadir, tiername, exclude_pattern):
+def getWavDuration(fname):
+    with contextlib.closing(wave.open(fname,'r')) as f:
+        frames = f.getnframes()
+        rate = f.getframerate()
+        duration = frames / float(rate)
+
+    return duration
+
+
+def getInfo_wavtxt(datadir):
     # Add slash('/') if datadir is specified without final slash
     if datadir[-1] != '/':
         datadir = datadir + '/'
@@ -106,40 +117,41 @@ def getInfo_textgrid(datadir, tiername, exclude_pattern):
     for subdir in dirs:
         print('Working on ' + subdir)
         os.chdir(datadir + subdir)
-        gridlist = glob.glob('*.TextGrid')
+        txtlist = glob.glob('*.txt')
 
-        # (1) For each TextGrid
-        for file_id in range(0, len(gridlist)):
-            fname_ext = gridlist[file_id]
-            fname = re.sub('\..+', '', fname_ext)
-            txt = readTextGridUTF8(fname_ext, tiername)
+        # For each text and wav
+        for file_id in range(0, len(txtlist)):
+            fname_txt_ext = txtlist[file_id]
+            fname = re.sub('\..+', '', fname_txt_ext)
+            fname_wav_ext = fname + '.wav'
 
-            # (2) For each labels
-            for x in range(0, len(txt)-2, 3):
-                # Get time range
-                t_init_sec = math.floor(float(txt[x])*100)/100
-                t_end_sec = math.floor(float(txt[x+1])*100)/100
+            txt = readfileUTF8(fname_txt_ext)
+            dur = getWavDuration(fname_wav_ext)
 
-                # Codify seconds into 6 digit numbers
-                t_init_code = codify6digits(int(t_init_sec * 100))
-                t_end_code = codify6digits(int(t_end_sec * 100))
+            # Get time range
+            t_init_sec = 0.0
+            t_end_sec = math.floor(float(dur)*100)/100
 
-                # info (7 columns total)
-                record_id = fname
-                utt_id = fname + '-' + t_init_code + '-' + t_end_code
-                spk_id = re.sub('/', '', subdir)
-                textlabel = txt[x+2]
-                seg_beg = str(t_init_sec)
-                seg_end = str(t_end_sec)
-                extended_fname = datadir + spk_id + '/' + fname + '.wav'
+            # Codify seconds into 6 digit numbers
+            t_init_code = u'000000'
+            t_end_code = codify6digits(int(t_end_sec * 100))
 
-                if not re.match(exclude_pattern, textlabel):
-                    stack.append(extended_fname + u'\t'
-                                 + record_id + u'\t'
-                                 + utt_id + u'\t'
-                                 + spk_id + u'\t'
-                                 + textlabel + u'\t'
-                                 + seg_beg + u'\t' + seg_end)
+            # info (7 columns total)
+            record_id = fname
+            utt_id = fname + '-' + t_init_code + '-' + t_end_code
+            spk_id = re.sub('/', '', subdir)
+            textlabel = ''.join(txt)
+            seg_beg = str(t_init_sec)
+            seg_end = str(t_end_sec)
+            extended_fname = datadir + spk_id + '/' + fname + '.wav'
+
+            # if not re.match(exclude_pattern, textlabel):
+            stack.append(extended_fname + u'\t'
+                         + record_id + u'\t'
+                         + utt_id + u'\t'
+                         + spk_id + u'\t'
+                         + textlabel + u'\t'
+                         + seg_beg + u'\t' + seg_end)
 
     os.chdir(datadir)
     writefile(stack, 'uttinfo.txt')
@@ -147,11 +159,9 @@ def getInfo_textgrid(datadir, tiername, exclude_pattern):
 
 # ----------------------------------------------------- #
 # Input arguments:
-datadir = sys.argv[1]
-tiername = sys.argv[2]
-exclude_pattern = u'(<[^>]+> ?)+'
+datadir = '/Users/Scarlet_Mac/krss/wavtxt/read' # sys.argv[1]
 # ----------------------------------------------------- #
 
-# Get information from TextGrids
-getInfo_textgrid(datadir, tiername, exclude_pattern)
+# Get information from wavs and txts
+getInfo_wavtxt(datadir)
 
