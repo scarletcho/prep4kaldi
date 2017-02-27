@@ -39,7 +39,6 @@ These codes help data preparation for building an ASR system in Kaldi by creatin
 
 
 ## Usage
-After specifying 'datadir', 'datatype', and 'tiername' in *prep4kaldi.sh*, type the following command:
 
 	$ sh prep4kaldi.sh <datadir> <datatype> <tiername>
 
