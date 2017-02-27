@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # ~~~~~~~~~
-# kaldi_dataprep.sh
+# prep4kaldi.sh
 # ~~~~~~~~~
 
 # This script helps data preparation for building an ASR system in Kaldi
@@ -20,10 +20,11 @@
 #		Specify as:
 #			$ datadir='/Users/cho/mycorpus/'
 #
-# (2) tiername:	Name of TextGrid tier to extract labels from.
+# (2) tiername
+#	- Name of TextGrid tier to extract labels from.
 #	e.g. 'utterance', 'sent', ...
 
-# Usage: $ sh kaldi_dataprep.sh
+# Usage: $ sh prep4kaldi.sh
 
 # Created: 2017-02-27
 # Last updated: 2017-02-27
