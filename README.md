@@ -26,7 +26,8 @@ These codes help data preparation for building an ASR system in Kaldi by creatin
 	
 		NB. each subfolder includes its corresponding speaker's  
 		-> recordings (.wav)  
-		-> textgrids (.TextGrid)  
+		-> transcriptions (.txt) or textgrids (.TextGrid)  
+		
 - Then, specify as:
 
 	`$ datadir='/Users/cho/mycorpus/'` (line 39)
