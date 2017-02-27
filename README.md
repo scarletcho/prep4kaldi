@@ -7,23 +7,28 @@ These codes help data preparation for building an ASR system in Kaldi by creatin
 
 ## Inputs to be specified   
 (1) **datadir**  
-- Directory path of where subfolders named by speaker ids are located.  
+- Directory path of where subfolders named by speaker ids are located.
+- For example, given a corpus in the following directory:  
+>	/Users/cho/mycorpus/,  
+	&nbsp;&nbsp;&nbsp;&nbsp;├─ s01/  
+	&nbsp;&nbsp;&nbsp;&nbsp;├─ s02/  
+	&nbsp;&nbsp;&nbsp;&nbsp;├─ s03/  
+	&nbsp;&nbsp;&nbsp;&nbsp;├─ ...  
+	&nbsp;&nbsp;&nbsp;&nbsp;├─ s19/  
+	&nbsp;&nbsp;&nbsp;&nbsp;└─ s20/  
+	
+		NB. each subfolder includes its corresponding speaker's  
+		-> recordings (.wav)  
+		-> textgrids (.TextGrid)  
+- Then, specify as:
 
-	e.g. Given /Users/cho/mycorpus/,
-				├─ s01/  
-				├─ s02/		NB. each subfolder includes its corresponding speaker's  
-				├─ s03/				-> recordings (.wav)  
-				├─ ...				-> textgrids (.TextGrid)  
-				├─ s19/  
-				└─ s20/  
-
-		Specify as:
-			$ datadir='/Users/cho/mycorpus/'
+	`$ datadir='/Users/cho/mycorpus/'`
 
 (2) **tiername**  
 - Name of TextGrid tier to extract labels from.
+- For example, if the transcriptions need to be extracted from 'utterance' tier, specify as:
 
-	e.g. 'utterance', 'sent', ...
+	`$ tiername='utterance'`
 
 ## Usage
 After specifying 'datadir' and 'tiername' in *prep4kaldi.sh*, type the following command:
