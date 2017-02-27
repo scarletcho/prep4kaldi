@@ -28,7 +28,7 @@
 #	- Name of TextGrid tier to extract labels from (if datatype is specified as 'textgrid').
 #	e.g. 'utterance', 'sent', ...
 #
-# Usage: $ sh prep4kaldi.sh
+# Usage: $ sh prep4kaldi.sh <datadir> <datatype> <tiername>
 
 # Created: 2017-02-27
 # Last updated: 2017-02-27
@@ -40,20 +40,40 @@ datadir=$1
 datatype=$2
 tiername=$3
 
+
+# Data clean-up
+if [ -d $datadir/tmp ]; then rm -rf $datadir/tmp; fi
+mkdir $datadir/tmp
+
+if [ -e $datadir/uttinfo.txt ]; then mv $datadir/uttinfo.txt $datadir/tmp; fi
+if [ -d $datadir/required/ ]; then mv $datadir/required/ $datadir/tmp/prev_required/; fi
+
+# Delete tmp folder if empty
+if [ -z "$(ls -A $datadir/tmp)" ]; then rm -rf $datadir/tmp; fi
+
+
 # STEP1
 case $datatype in
     textgrid)
         echo '[STEP1] Extract uttinfo.txt from .TextGrids in $datadir'
-        # When extracting info from TextGrids:
-        python textgrid2info.py "$datadir" "$tiername"
+        if [ -n "$tiername" ]; then
+            # When extracting info from TextGrids:
+            python textgrid2info.py "$datadir" "$tiername"
+        else
+            echo "[InputError] Please specify your tiername."
+            exit 1
+        fi
         ;;
+
     wavtxt)
         echo '[STEP1] Extract uttinfo.txt from .txts & .wavs in $datadir'
         # When extracting info from wavs and txts:
         python wavtxt2info.py "$datadir"
         ;;
+
     *)
-        echo -n "Please specify your datatype as 'textgrid' of 'wavtxt'."
+        echo "[InputError] Please specify your datatype as 'textgrid' of 'wavtxt'."
+        exit 1
         ;;
 esac
 
@@ -87,3 +107,4 @@ cut -f 2,1 uttinfo.txt | tr '\t' ' ' > ./required/wav.scp
 
 # ─────────────────────────────────────────────────────────────────────────
 echo 'Kaldi data preparation has successfully COMPLETED!'
+
