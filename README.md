@@ -5,10 +5,10 @@ Data preparation code for building Kaldi ASR system.
 ## What it does
 These codes help data preparation for building an ASR system in Kaldi by creating the following text files within 'required' folder:
 - Files created:
-	- 'text'
-	- 'utt2spk'
-	- 'segments'
-	- 'wav.scp'
+	- text
+	- utt2spk
+	- segments
+	- wav.scp
 
 ## Inputs to be specified   
 (1) **datadir**  
