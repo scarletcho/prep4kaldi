@@ -159,7 +159,7 @@ def getInfo_wavtxt(datadir):
 
 # ----------------------------------------------------- #
 # Input arguments:
-datadir = '/Users/Scarlet_Mac/krss/wavtxt/read' # sys.argv[1]
+datadir = sys.argv[1]
 # ----------------------------------------------------- #
 
 # Get information from wavs and txts

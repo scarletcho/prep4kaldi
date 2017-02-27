@@ -36,19 +36,19 @@
 # Yejin Cho (scarletcho@gmail.com)
 # ─────────────────────────────────────────────────────────────────────────
 # Input section
-datadir='/Users/Scarlet_Mac/krss/wavtxt/read/'
-datatype='wavtxt'
-tiername='utt.ortho'
+datadir=$1
+datatype=$2
+tiername=$3
 
-# ─────────────────────────────────────────────────────────────────────────
 # STEP1
-echo '[STEP1] Extract uttinfo.txt from .TextGrids in $datadir'
 case $datatype in
     textgrid)
+        echo '[STEP1] Extract uttinfo.txt from .TextGrids in $datadir'
         # When extracting info from TextGrids:
         python textgrid2info.py "$datadir" "$tiername"
         ;;
     wavtxt)
+        echo '[STEP1] Extract uttinfo.txt from .txts & .wavs in $datadir'
         # When extracting info from wavs and txts:
         python wavtxt2info.py "$datadir"
         ;;
