@@ -9,12 +9,12 @@ These codes help data preparation for building an ASR system in Kaldi by creatin
 (1) **datadir**  
 - Directory path of where subfolders named by speaker ids are located.  
 
-	e.g. Given /Users/cho/mycorpus/,  
-  				├─ s01/			  
-  				├─ s02/		NB. each subfolder includes its corresponding speaker's  
-  				├─ s03/			-> recordings (.wav)  
-  				├─ ...			-> textgrids (.TextGrid)
-				├─ s19/			  
+	e.g. Given /Users/cho/mycorpus/,
+				├─ s01/  
+				├─ s02/		NB. each subfolder includes its corresponding speaker's  
+				├─ s03/				-> recordings (.wav)  
+				├─ ...				-> textgrids (.TextGrid)  
+				├─ s19/  
 				└─ s20/  
 
 		Specify as:
