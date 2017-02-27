@@ -29,20 +29,20 @@ These codes help data preparation for building an ASR system in Kaldi by creatin
 		-> textgrids (.TextGrid)  
 - Then, specify as:
 
-	`$ datadir='/Users/cho/mycorpus/'`
+	`$ datadir='/Users/cho/mycorpus/'` (line 39)
 
 (2) **datatype**
 - Type of data from which information should be extracted.
 - Please choose between 'textgrid' or 'wavtxt'.
 - For instance:
 
-	`$ datatype='textgrid'`
+	`$ datatype='textgrid'` (line 40)
 
 (3) **tiername**  
 - Name of TextGrid tier to extract labels from.
 - For example, if the transcriptions need to be extracted from 'utterance' tier, specify as:
 
-	`$ tiername='utterance'`
+	`$ tiername='utterance'` (line 41)
 
 ## Usage
 After specifying 'datadir', 'datatype', and 'tiername' in *prep4kaldi.sh*, type the following command:
