@@ -94,16 +94,16 @@ mkdir required
 echo '[STEP2] Organize collected info to create: 'text', 'utt2spk', 'segments', and 'wav.scp''
 
 # (1) 'text': <utt-id> <transcription>
-cut -f 3,5 uttinfo.txt | tr '\t' ' ' > ./required/text
+awk 'BEGIN {FS="\t"}; {print $3 " " $5}' uttinfo.txt > ./required/text
 
 # (2) 'utt2spk': <utt-id> <spk-id>
-cut -f 3,4 uttinfo.txt | tr '\t' ' ' > ./required/utt2spk
+awk 'BEGIN {FS="\t"}; {print $3 " " $4}' uttinfo.txt > ./required/utt2spk
 
 # (3) 'segments': <utt-id> <rec-id> <seg-beg> <seg-end>
-cut -f 3,2,6,7 uttinfo.txt | tr '\t' ' ' > ./required/segments
+awk 'BEGIN {FS="\t"}; {print $3 " " $2 " " $6 " " $7}' uttinfo.txt > ./required/segments
 
 # (4) 'wav.scp': <rec-id> <extended-fname>
-cut -f 2,1 uttinfo.txt | tr '\t' ' ' > ./required/wav.scp
+awk 'BEGIN {FS="\t"}; {print $2 " " $1}' uttinfo.txt > ./required/wav.scp
 
 # ─────────────────────────────────────────────────────────────────────────
 echo 'Kaldi data preparation has successfully COMPLETED!'
