@@ -8,25 +8,25 @@
 
 # Inputs to be specified: 
 # (1) datadir
-#	- Directory path of where subfolders named by speaker ids are located.
-#	e.g. Given /Users/cho/mycorpus/,
-#				├─ s01/			
-#				├─ s02/		NB. each subfolder includes
-#				├─ s03/			its corresponding speaker's
-#				├─ ...			-> recordings (.wav)
-#				├─ s19/			-> textgrids (.TextGrid)
-#				└─ s20/
+#    - Directory path of where subfolders named by speaker ids are located.
+#    e.g. Given /Users/cho/mycorpus/,
+#                ├─ s01/            
+#                ├─ s02/        NB. each subfolder includes
+#                ├─ s03/            its corresponding speaker's
+#                ├─ ...            -> recordings (.wav)
+#                ├─ s19/            -> textgrids (.TextGrid)
+#                └─ s20/
 #
-#		Specify as:
-#			$ datadir='/Users/cho/mycorpus/'
+#        Specify as:
+#            $ datadir='/Users/cho/mycorpus/'
 #
 # (2) datatype
 #   - Type of data from which information should be extracted.
 #   - Please choose between 'textgrid' or 'wavtxt'.
 #
 # (2) tiername
-#	- Name of TextGrid tier to extract labels from (if datatype is specified as 'textgrid').
-#	e.g. 'utterance', 'sent', ...
+#    - Name of TextGrid tier to extract labels from (if datatype is specified as 'textgrid').
+#    e.g. 'utterance', 'sent', ...
 #
 # Usage: $ sh prep4kaldi.sh <datadir> <datatype> <tiername>
 
@@ -68,7 +68,7 @@ case $datatype in
     wavtxt)
         echo '[STEP1] Extract uttinfo.txt from .txts & .wavs in $datadir'
         # When extracting info from wavs and txts:
-        python wavtxt2info.py "$datadir"
+            python wavtxt2info.py "$datadir"
         ;;
 
     *)
@@ -81,13 +81,13 @@ cd $datadir
 mkdir required
 
 # NB. Information structure of uttinfo.txt (tsv):
-	# field 1. <extended-filename>
-	# field 2. <recording-id>
-	# field 3. <utterance-id>
-	# field 4. <speaker-id>
-	# field 5. <transcription>
-	# field 6. <segment-begin (in sec)>
-	# field 7. <segment-end (in sec)>
+    # field 1. <extended-filename>
+    # field 2. <recording-id>
+    # field 3. <utterance-id>
+    # field 4. <speaker-id>
+    # field 5. <transcription>
+    # field 6. <segment-begin (in sec)>
+    # field 7. <segment-end (in sec)>
 
 # ─────────────────────────────────────────────────────────────────────────
 # STEP2
